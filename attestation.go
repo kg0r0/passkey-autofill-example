@@ -1,12 +1,17 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"strings"
 
 	"github.com/go-webauthn/webauthn/protocol"
 )
+
+type Params struct {
+	Username string
+}
 
 func BeginRegistration(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
@@ -16,7 +21,15 @@ func BeginRegistration(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		jsonResponse(w, err.Error(), http.StatusBadRequest)
 	}
-	username := r.FormValue("username")
+
+	var p Params
+
+	err := json.NewDecoder(r.Body).Decode(&p)
+	if err != nil {
+		jsonResponse(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	username := p.Username
 
 	user, err := usersDB.GetUser(username)
 	if err != nil {

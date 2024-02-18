@@ -15,11 +15,11 @@ type User struct {
 	credentials []webauthn.Credential
 }
 
-func NewUser(name string, displayName string) *User {
+func NewUser(username string, displayName string) *User {
 
 	user := &User{}
 	user.id = randomUint64()
-	user.username = name
+	user.username = username
 	user.displayName = displayName
 	user.credentials = []webauthn.Credential{}
 

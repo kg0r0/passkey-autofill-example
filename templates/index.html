@@ -1,2 +1,38 @@
 <!DOCTYPE html>
-<html></html>
+<html>
+
+<head>
+  <script src="https://unpkg.com/@simplewebauthn/browser/dist/bundle/index.umd.min.js"></script>
+</head>
+
+<body>
+  <h1>FIDO2 Server Example</h1>
+  <label for="username">Username:</label><br>
+  <input type="text" id="username"><br>
+  <button type="submit" id="register" onclick="register()">Register</button>
+</body>
+
+<script>
+  async function register() {
+    const { startRegistration } = SimpleWebAuthnBrowser;
+    const resp = await fetch('/attestation/options', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username.value
+      })
+    });
+    let attResp;
+    try {
+      const opts = await resp.json();
+      attResp = await startRegistration(opts.publicKey);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+</script>
+
+</html>
