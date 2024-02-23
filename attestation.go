@@ -19,17 +19,31 @@ func BeginRegistration(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if err := r.ParseForm(); err != nil {
-		jsonResponse(w, err.Error(), http.StatusBadRequest)
+		jsonResponse(w, FIDO2Response{
+			Status:       "failed",
+			ErrorMessage: err.Error(),
+		}, http.StatusBadRequest)
+		return
 	}
 
 	var p Params
 
 	err := json.NewDecoder(r.Body).Decode(&p)
 	if err != nil {
-		jsonResponse(w, err.Error(), http.StatusBadRequest)
+		jsonResponse(w, FIDO2Response{
+			Status:       "failed",
+			ErrorMessage: err.Error(),
+		}, http.StatusBadRequest)
 		return
 	}
 	username := p.Username
+	if username == "" {
+		jsonResponse(w, FIDO2Response{
+			Status:       "failed",
+			ErrorMessage: "Missing username",
+		}, http.StatusBadRequest)
+		return
+	}
 
 	user, err := usersDB.GetUser(username)
 	if err != nil {
@@ -42,7 +56,10 @@ func BeginRegistration(w http.ResponseWriter, r *http.Request) {
 	}
 	options, sessionData, err := webAuthn.BeginRegistration(user, registerOptions)
 	if err != nil {
-		jsonResponse(w, err.Error(), http.StatusBadRequest)
+		jsonResponse(w, FIDO2Response{
+			Status:       "failed",
+			ErrorMessage: err.Error(),
+		}, http.StatusBadRequest)
 		return
 	}
 
@@ -56,11 +73,57 @@ func BeginRegistration(w http.ResponseWriter, r *http.Request) {
 
 func FinishRegistration(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
-		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		jsonResponse(w, FIDO2Response{
+			Status:       "failed",
+			ErrorMessage: err.Error(),
+		}, http.StatusBadRequest)
 		return
 	}
+
 	if err := r.ParseForm(); err != nil {
 		log.Fatal(err)
 	}
+	cookie, err := r.Cookie("registration")
+	if err != nil {
+		jsonResponse(w, FIDO2Response{
+			Status:       "failed",
+			ErrorMessage: err.Error(),
+		}, http.StatusBadRequest)
+		return
+	}
 
+	sessionData, err := sessionDb.GetSession(cookie.Value)
+	if err != nil {
+		jsonResponse(w, FIDO2Response{
+			Status:       "failed",
+			ErrorMessage: err.Error(),
+		}, http.StatusBadRequest)
+		return
+	}
+
+	user, err := usersDB.GetUser(string(sessionData.UserID))
+	if err != nil {
+		jsonResponse(w, FIDO2Response{
+			Status:       "failed",
+			ErrorMessage: err.Error(),
+		}, http.StatusBadRequest)
+		return
+	}
+
+	credential, err := webAuthn.FinishRegistration(user, *sessionData, r)
+	if err != nil {
+		jsonResponse(w, FIDO2Response{
+			Status:       "failed",
+			ErrorMessage: err.Error(),
+		}, http.StatusBadRequest)
+		return
+	}
+	user.AddCredential(*credential)
+
+	sessionDb.DeleteSession(cookie.Value)
+
+	jsonResponse(w, FIDO2Response{
+		Status:       "ok",
+		ErrorMessage: "",
+	}, http.StatusOK)
 }

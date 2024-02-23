@@ -54,6 +54,10 @@ func (u User) WebAuthnIcon() string {
 	return ""
 }
 
+func (u *User) AddCredential(cred webauthn.Credential) {
+	u.credentials = append(u.credentials, cred)
+}
+
 func (u User) CredentialExcludeList() []protocol.CredentialDescriptor {
 	credentialExcludeList := []protocol.CredentialDescriptor{}
 	for _, cred := range u.credentials {

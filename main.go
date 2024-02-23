@@ -14,6 +14,11 @@ var (
 	err      error
 )
 
+type FIDO2Response struct {
+	Status       string `json:"status"`
+	ErrorMessage string `json:"errorMessage"`
+}
+
 func jsonResponse(w http.ResponseWriter, d interface{}, c int) {
 	dj, err := json.Marshal(d)
 	if err != nil {
@@ -31,7 +36,7 @@ func main() {
 		RPOrigin:      "http://localhost:8080",
 	}
 	if webAuthn, err = webauthn.New(wconfig); err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
 	http.HandleFunc("/attestation/options", BeginRegistration)

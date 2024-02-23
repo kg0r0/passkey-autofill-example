@@ -10,10 +10,12 @@
   <label for="username">Username:</label><br>
   <input type="text" id="username"><br>
   <button type="submit" id="register" onclick="register()">Register</button>
+  <p id="message"></p>
 </body>
 
 <script>
   async function register() {
+    const elemMsg = document.getElementById('message');
     const { startRegistration } = SimpleWebAuthnBrowser;
     const resp = await fetch('/attestation/options', {
       method: 'POST',
@@ -30,7 +32,20 @@
       const opts = await resp.json();
       attResp = await startRegistration(opts.publicKey);
     } catch (error) {
-      console.log(error);
+      throw error;
+    }
+    const verificationResp = await fetch('/attestation/result', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(attResp),
+    });
+    const verificationJSON = await verificationResp.json();
+    if (verificationJSON && verificationJSON.status === 'ok') {
+      elemMsg.innerText = 'Successfully registered!';
+    } else {
+      elemMsg.innerText = 'Error: ' + verificationJSON.errorMessage;
     }
   }
 </script>
