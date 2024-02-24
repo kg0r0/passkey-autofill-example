@@ -1,8 +1,9 @@
 # fido2-go-example
 
+Experimental implementation of Passkey Autofill in Go.
+
 ```
 $ go run .
-2024/02/14 00:24:31 Listening on http://localhost:8080
 ```
 
 ## References

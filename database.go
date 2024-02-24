@@ -31,6 +31,11 @@ func (db *userdb) AddUser(user *User) error {
 	if ok {
 		return fmt.Errorf("user already exists")
 	}
+	_, ok = db.users[string(user.username)]
+	if ok {
+		return fmt.Errorf("user already exists")
+	}
 	db.users[string(user.WebAuthnID())] = user
+	db.users[user.username] = user
 	return nil
 }
