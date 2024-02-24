@@ -2,6 +2,8 @@ package main
 
 import (
 	"net/http"
+
+	"github.com/go-webauthn/webauthn/webauthn"
 )
 
 func BeginLogin(w http.ResponseWriter, r *http.Request) {
@@ -30,7 +32,7 @@ func BeginLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	http.SetCookie(w, &http.Cookie{
-		Name:  "registration",
+		Name:  "authentication",
 		Value: sessionDb.StartSession(sessionData),
 		Path:  "/",
 	})
@@ -42,4 +44,56 @@ func FinishLogin(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 		return
 	}
+
+	if err := r.ParseForm(); err != nil {
+		jsonResponse(w, FIDO2Response{
+			Status:       "failed",
+			ErrorMessage: err.Error(),
+		}, http.StatusBadRequest)
+		return
+	}
+
+	cookie, err := r.Cookie("authentication")
+	if err != nil {
+		jsonResponse(w, FIDO2Response{
+			Status:       "failed",
+			ErrorMessage: err.Error(),
+		}, http.StatusBadRequest)
+		return
+	}
+
+	sessionData, err := sessionDb.GetSession(cookie.Value)
+	if err != nil {
+		jsonResponse(w, FIDO2Response{
+			Status:       "failed",
+			ErrorMessage: err.Error(),
+		}, http.StatusBadRequest)
+		return
+	}
+
+	credential, err := webAuthn.FinishDiscoverableLogin(func(rawId []byte, userhandle []byte) (user webauthn.User, err error) {
+		return usersDB.GetUser(string(userhandle))
+	}, *sessionData, r)
+	if err != nil {
+		jsonResponse(w, FIDO2Response{
+			Status:       "failed",
+			ErrorMessage: err.Error(),
+		}, http.StatusBadRequest)
+		return
+	}
+
+	if credential.Authenticator.CloneWarning {
+		jsonResponse(w, FIDO2Response{
+			Status:       "failed",
+			ErrorMessage: "authenticator is cloned",
+		}, http.StatusBadRequest)
+		return
+	}
+
+	sessionDb.DeleteSession(cookie.Value)
+
+	jsonResponse(w, FIDO2Response{
+		Status:       "ok",
+		ErrorMessage: "",
+	}, http.StatusOK)
 }

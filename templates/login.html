@@ -3,6 +3,13 @@
 
 <head>
   <script src="https://unpkg.com/@simplewebauthn/browser/dist/bundle/index.umd.min.js"></script>
+</head>
+
+<body>
+  <h1>FIDO2 Server Example: Sign-In</h1>
+  <label for="username">Username:</label><br>
+  <input name="username" id="loginform.username" autocomplete="username webauthn"><br>
+  <p id="message"></p>
   <script>
     (
       async () => {
@@ -38,12 +45,5 @@
       }
     )().catch(err => console.log(err));
   </script>
-</head>
-
-<body>
-  <h1>FIDO2 Server Example: Sign-In</h1>
-  <label for="username">Username:</label><br>
-  <input name="username" id="loginform.username" autocomplete="username webauthn"><br>
-  <p id="message"></p>
 </body>
 </html>
