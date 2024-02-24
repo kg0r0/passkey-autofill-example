@@ -14,6 +14,10 @@ var (
 	err      error
 )
 
+type Params struct {
+	Username string
+}
+
 type FIDO2Response struct {
 	Status       string `json:"status"`
 	ErrorMessage string `json:"errorMessage"`
@@ -42,10 +46,13 @@ func main() {
 	http.HandleFunc("/attestation/options", BeginRegistration)
 	http.HandleFunc("/attestation/result", FinishRegistration)
 
-	http.HandleFunc("/assertion/options", BeginRegistration)
-	http.HandleFunc("/assertion/result", FinishRegistration)
+	http.HandleFunc("/assertion/options", BeginLogin)
+	http.HandleFunc("/assertion/result", FinishLogin)
 
 	http.Handle("/", http.FileServer(http.Dir("./templates")))
+	http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "templates/login.html")
+	})
 
 	serverAddr := "localhost:8080"
 

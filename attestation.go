@@ -9,10 +9,6 @@ import (
 	"github.com/go-webauthn/webauthn/protocol"
 )
 
-type Params struct {
-	Username string
-}
-
 func BeginRegistration(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
