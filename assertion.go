@@ -23,6 +23,8 @@ func BeginLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Some options are complemented in the frontend
+	// Ref: https://github.com/MasterKale/SimpleWebAuthn/blob/5229cebbcc2d087b7eaaaeb9886f53c9e1d93522/packages/browser/src/methods/startAuthentication.ts#L72-L76
 	options, sessionData, err := webAuthn.BeginDiscoverableLogin()
 	if err != nil {
 		jsonResponse(w, FIDO2Response{
