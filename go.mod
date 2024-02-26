@@ -1,4 +1,4 @@
-module github.com/kg0r0/fido2-go-example
+module github.com/kg0r0/passkey-autofill-example
 
 go 1.21.4
 
