@@ -10,11 +10,11 @@ Run the server with the following command:
 $ go run .
 ```
 
-Acces http://localhost:8080 and register a passkey.
+Access to http://localhost:8080 and register a passkey.
 
 ![](/assets/registration.png)
 
-Access http://localhost:8080/login and authenticate.
+Access to http://localhost:8080/login and authenticate.
 
 ![](/assets/authentication.png)
 
