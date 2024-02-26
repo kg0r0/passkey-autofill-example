@@ -1,6 +1,6 @@
 # passkey-autofill-example
 
-Experimental implementation of Passkey Autofill in Go.
+🔑 Experimental implementation of Passkey Autofill in Go.
 
 ## Usage
 
@@ -28,3 +28,6 @@ Access http://localhost:8080/login and authenticate.
   - https://github.com/duo-labs/webauthn
 - Frontend
   - https://simplewebauthn.dev/docs/
+- Other example implementation
+  - https://github.com/go-webauthn/example/tree/master
+  - https://github.com/NHAS/webauthn-example

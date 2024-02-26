@@ -9,7 +9,7 @@ import (
 	"github.com/go-webauthn/webauthn/protocol"
 )
 
-func BeginRegistration(w http.ResponseWriter, r *http.Request) {
+func AttestationOptions(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 		return
@@ -67,7 +67,7 @@ func BeginRegistration(w http.ResponseWriter, r *http.Request) {
 	jsonResponse(w, options, http.StatusOK)
 }
 
-func FinishRegistration(w http.ResponseWriter, r *http.Request) {
+func AttestationResult(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		jsonResponse(w, FIDO2Response{
 			Status:       "failed",

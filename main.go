@@ -43,11 +43,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	http.HandleFunc("/attestation/options", BeginRegistration)
-	http.HandleFunc("/attestation/result", FinishRegistration)
+	http.HandleFunc("/attestation/options", AttestationOptions)
+	http.HandleFunc("/attestation/result", AttestationResult)
 
-	http.HandleFunc("/assertion/options", BeginLogin)
-	http.HandleFunc("/assertion/result", FinishLogin)
+	http.HandleFunc("/assertion/options", AssertionOptions)
+	http.HandleFunc("/assertion/result", AssertionResult)
 
 	http.Handle("/", http.FileServer(http.Dir("./templates")))
 	http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {

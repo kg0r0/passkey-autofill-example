@@ -6,7 +6,7 @@ import (
 	"github.com/go-webauthn/webauthn/webauthn"
 )
 
-func BeginLogin(w http.ResponseWriter, r *http.Request) {
+func AssertionOptions(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		jsonResponse(w, FIDO2Response{
 			Status:       "failed",
@@ -41,7 +41,7 @@ func BeginLogin(w http.ResponseWriter, r *http.Request) {
 	jsonResponse(w, options, http.StatusOK)
 }
 
-func FinishLogin(w http.ResponseWriter, r *http.Request) {
+func AssertionResult(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 		return
