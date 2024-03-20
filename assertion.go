@@ -84,6 +84,14 @@ func AssertionResult(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !credential.Flags.UserVerified {
+		jsonResponse(w, FIDO2Response{
+			Status:       "failed",
+			ErrorMessage: "user was not verified",
+		}, http.StatusBadRequest)
+		return
+	}
+
 	if credential.Authenticator.CloneWarning {
 		jsonResponse(w, FIDO2Response{
 			Status:       "failed",

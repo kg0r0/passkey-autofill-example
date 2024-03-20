@@ -114,6 +114,15 @@ func AttestationResult(w http.ResponseWriter, r *http.Request) {
 		}, http.StatusBadRequest)
 		return
 	}
+
+	if !credential.Flags.UserPresent || !credential.Flags.UserVerified {
+		jsonResponse(w, FIDO2Response{
+			Status:       "failed",
+			ErrorMessage: "user was not verified",
+		}, http.StatusBadRequest)
+		return
+	}
+
 	user.AddCredential(*credential)
 
 	sessionDb.DeleteSession(cookie.Value)
