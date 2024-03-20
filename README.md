@@ -12,11 +12,11 @@ $ go run .
 
 Access to http://localhost:8080 and register a passkey.
 
-![](/assets/registration.png)
+![](https://github.com/kg0r0/passkey-autofill-example/blob/assets/registration.png?raw=true)
 
 Access to http://localhost:8080/login and authenticate.
 
-![](/assets/authentication.png)
+![](https://github.com/kg0r0/passkey-autofill-example/blob/assets/authentication.png?raw=true)
 
 ## References
 - FIDO2 & Passkeys
