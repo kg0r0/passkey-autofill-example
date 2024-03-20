@@ -20,7 +20,7 @@ Access to http://localhost:8080/login and authenticate.
 
 ## References
 - FIDO2 & Passkeys
-  - https://www.w3.org/TR/webauthn-2/
+  - https://www.w3.org/TR/webauthn-3/
   - https://passkeys.dev/docs/intro/what-are-passkeys/
   - https://fidoalliance.org/specs/fido-v2.0-rd-20180702/fido-server-v2.0-rd-20180702.html
 - Backend
