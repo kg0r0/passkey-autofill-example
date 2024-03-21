@@ -49,6 +49,8 @@ func AttestationOptions(w http.ResponseWriter, r *http.Request) {
 	}
 	registerOptions := func(credCreationOpts *protocol.PublicKeyCredentialCreationOptions) {
 		credCreationOpts.CredentialExcludeList = user.CredentialExcludeList()
+		credCreationOpts.AuthenticatorSelection.RequireResidentKey = protocol.ResidentKeyRequired()
+		credCreationOpts.AuthenticatorSelection.ResidentKey = protocol.ResidentKeyRequirementRequired
 	}
 	options, sessionData, err := webAuthn.BeginRegistration(user, registerOptions)
 	if err != nil {
