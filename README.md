@@ -2,6 +2,13 @@
 
 🔑 Experimental implementation of Passkey Autofill in Go.
 
+This simple implementation provides for developers to try out Passkey Autofill in their environment. Note that this implementation uses the following two libraries:
+
+- https://github.com/go-webauthn/webauthn
+- https://github.com/MasterKale/SimpleWebAuthn
+
+You can read additional explanations of this implementation in [this document](https://kg0r0.medium.com/experimental-implementation-of-passkey-autofill-in-go-b10c5c5d98b4).
+
 ## Usage
 
 Run the server with the following command:
