@@ -1,12 +1,12 @@
 # passkey-autofill-example
-
-🔑 Experimental implementation of Passkey Autofill in Go.
-
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)  
+🔑 Experimental implementation of Passkey Autofill in Go.  
 This simple implementation provides for developers to try out Passkey Autofill in their environment. Note that this implementation uses the following two libraries:
 
 - https://github.com/go-webauthn/webauthn
 - https://github.com/MasterKale/SimpleWebAuthn
 
+The endpoint design of this implementation is based on [[Web Authentication API Flow](https://www.w3.org/TR/webauthn-3/#sctn-api)] and [[Server Requirements and Transport Binding Profile](https://fidoalliance.org/specs/fido-v2.0-rd-20180702/fido-server-v2.0-rd-20180702.html)].
 You can read additional explanations of this implementation in [this document](https://kg0r0.medium.com/experimental-implementation-of-passkey-autofill-in-go-b10c5c5d98b4).
 
 ## Usage
@@ -24,17 +24,3 @@ Access to http://localhost:8080 and register a passkey.
 Access to http://localhost:8080/login and authenticate.
 
 ![](https://github.com/kg0r0/passkey-autofill-example/blob/assets/authentication.png?raw=true)
-
-## References
-- FIDO2 & Passkeys
-  - https://www.w3.org/TR/webauthn-3/
-  - https://passkeys.dev/docs/intro/what-are-passkeys/
-  - https://fidoalliance.org/specs/fido-v2.0-rd-20180702/fido-server-v2.0-rd-20180702.html
-- Backend
-  - https://github.com/go-webauthn/webauthn
-  - https://github.com/duo-labs/webauthn
-- Frontend
-  - https://simplewebauthn.dev/docs/
-- Other example implementation
-  - https://github.com/go-webauthn/example/tree/master
-  - https://github.com/NHAS/webauthn-example
