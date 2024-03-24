@@ -1,7 +1,7 @@
 # passkey-autofill-example
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)  
 🔑 Experimental implementation of Passkey Autofill in Go.  
-This simple implementation provides for developers to try out Passkey Autofill in their environment. Note that this implementation uses the following two libraries:
+This simple implementation provides for developers to try out [Passkey Autofill](https://passkeys.dev/docs/reference/terms/#autofill-ui) in their environment. Note that this implementation uses the following two libraries:
 
 - https://github.com/go-webauthn/webauthn
 - https://github.com/MasterKale/SimpleWebAuthn
