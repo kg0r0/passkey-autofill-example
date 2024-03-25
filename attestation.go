@@ -11,7 +11,10 @@ import (
 
 func AttestationOptions(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
-		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		jsonResponse(w, FIDO2Response{
+			Status:       "failed",
+			ErrorMessage: "Invalid request method",
+		}, http.StatusBadRequest)
 		return
 	}
 	if err := r.ParseForm(); err != nil {

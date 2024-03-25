@@ -84,7 +84,7 @@ func AssertionResult(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !credential.Flags.UserVerified {
+	if !credential.Flags.UserPresent || !credential.Flags.UserVerified {
 		jsonResponse(w, FIDO2Response{
 			Status:       "failed",
 			ErrorMessage: "user was not verified",
