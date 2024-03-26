@@ -14,6 +14,10 @@ var (
 	err      error
 )
 
+var (
+	rpid = "shopping.co.uk"
+)
+
 type Params struct {
 	Username string
 }
@@ -36,8 +40,8 @@ func jsonResponse(w http.ResponseWriter, d interface{}, c int) {
 func main() {
 	wconfig := &webauthn.Config{
 		RPDisplayName: "Go WebAuthn",
-		RPID:          "localhost",
-		RPOrigin:      "http://localhost:8080",
+		RPID:          rpid,
+		RPOrigins:     []string{"https://shopping.co.uk", "https://shopping.com"},
 	}
 	if webAuthn, err = webauthn.New(wconfig); err != nil {
 		log.Fatal(err)
@@ -49,13 +53,14 @@ func main() {
 	http.HandleFunc("/assertion/options", AssertionOptions)
 	http.HandleFunc("/assertion/result", AssertionResult)
 
+	http.HandleFunc("/.well-known/webauthn", WebAuthn)
+
 	http.Handle("/", http.FileServer(http.Dir("./templates")))
 	http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "templates/login.html")
 	})
 
-	serverAddr := "localhost:8080"
+	port := "443"
 
-	log.Println("Listening on http://" + serverAddr)
-	log.Fatal(http.ListenAndServe(serverAddr, nil))
+	log.Fatal(http.ListenAndServeTLS(":"+port, "./certs/shopping.com+1.pem", "./certs/shopping.com+1-key.pem", nil))
 }
