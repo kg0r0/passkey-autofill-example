@@ -31,7 +31,7 @@
     let attResp;
     try {
       const opts = await resp.json();
-      attResp = await startRegistration(opts.publicKey);
+      attResp = await startRegistration({ optionsJSON: opts.publicKey });
     } catch (error) {
       throw error;
     }
