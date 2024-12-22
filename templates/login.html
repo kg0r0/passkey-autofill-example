@@ -25,7 +25,7 @@
         const opts = await resp.json();
         let asseResp;
         try {
-          asseResp = await startAuthentication(opts.publicKey, true);
+          asseResp = await startAuthentication({ optionsJSON: opts.publicKey, useBrowserAutofill: true });
         } catch (error) {
           throw error;
         }
@@ -46,4 +46,5 @@
     )().catch(err => console.log(err));
   </script>
 </body>
+
 </html>
