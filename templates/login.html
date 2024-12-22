@@ -13,6 +13,25 @@
   <script>
     (
       async () => {
+        // Check if PublicKeyCredential is supported in the current browser
+        if (typeof PublicKeyCredential === 'undefined') {
+          console.log("PublicKeyCredential is not supported in this browser.");
+        }
+        // Check if getClientCapabilities method exists on PublicKeyCredential
+        if (typeof PublicKeyCredential.getClientCapabilities === 'function') {
+          let capabilities;
+          try {
+            capabilities = await PublicKeyCredential.getClientCapabilities();
+            console.log(capabilities);
+          } catch (error) {
+            console.error('Error getting client capabilities:', error);
+          }
+          if (!capabilities.relatedOrigins) {
+            console.log('Related Origin Requests (ROR) is not supported in this browser');
+          }
+        } else {
+          console.log('getClientCapabilities is not supported in this browser');
+        }
         const { startAuthentication } = SimpleWebAuthnBrowser;
         const elemMsg = document.getElementById('message');
         const resp = await fetch('/assertion/options', {
