@@ -47,3 +47,7 @@ Basically you can see the implementation for authentication from the following l
 Note that you will need to adjust some arguments based on the descriptions in [passkey.dev](https://passkeys.dev/docs/use-cases/bootstrapping/) and others. Also make sure that there are [parameters](https://www.w3.org/TR/webauthn-3/#sctn-authenticator-data) that should be properly verified on the server side.
 
 The complete authentication-related implementations in this repository can be seen in [assertion.go](https://github.com/kg0r0/passkey-autofill-example/blob/main/assertion.go) and [templates/login.html](https://github.com/kg0r0/passkey-autofill-example/blob/main/templates/login.html).
+
+## Optional
+
+In the [reloated-origins](https://github.com/kg0r0/passkey-autofill-example/tree/reloated-origins) branch of this repository, you can also try the experimental implementation of [Related Origin Requests](https://passkeys.dev/docs/advanced/related-origins/).
