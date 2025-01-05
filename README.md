@@ -50,4 +50,4 @@ The complete authentication-related implementations in this repository can be se
 
 ## Optional
 
-In the [reloated-origins](https://github.com/kg0r0/passkey-autofill-example/tree/reloated-origins) branch of this repository, you can also try the experimental implementation of [Related Origin Requests](https://passkeys.dev/docs/advanced/related-origins/).
+In the [related-origins](https://github.com/kg0r0/passkey-autofill-example/tree/related-origins) branch of this repository, you can also try the experimental implementation of [Related Origin Requests](https://passkeys.dev/docs/advanced/related-origins/).
